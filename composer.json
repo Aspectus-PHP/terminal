@@ -1,0 +1,39 @@
+{
+    "name": "aspectus/terminal",
+    "description": "A terminal abstraction",
+    "keywords": [
+        "async",
+        "asynchronous",
+        "xterm",
+        "vt100",
+        "terminal",
+        "ansi"
+    ],
+    "type": "library",
+    "require": {
+        "amphp/byte-stream": "^2.0",
+        "amphp/amp": "^3"
+    },
+    "require-dev": {
+        "phpbench/phpbench": "^1.2",
+        "psalm/phar": "^5.9"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Aspectus\\Terminal\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Aspectus\\Terminal\\Tests\\": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Theo Gotsopoulos",
+            "email": "theogpl57@gmail.com"
+        }
+    ],
+    "version": "1.0"
+}
