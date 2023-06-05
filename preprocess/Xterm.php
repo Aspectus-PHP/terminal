@@ -530,6 +530,7 @@ namespace Aspectus\Terminal;
 
 use Amp\DeferredFuture;
 use Aspectus\Terminal\Event\EscapeSequenceEvent;
+use Aspectus\Terminal\Event\InputEvent;
 use Aspectus\Terminal\Value\PrimaryDeviceAttributes;
 use Aspectus\Terminal\Value\SecondaryDeviceAttributes;
 use Aspectus\Terminal\Value\TerminalParameters;
@@ -588,8 +589,11 @@ class Xterm
     }
 
     /**
-     * @param class-string $event
-     * @param callable $listener
+     * @template E of InputEvent
+     * @template C of callable(E):?true|\Closure(E):?true
+     *
+     * @param class-string<E> $event
+     * @param C $listener
      * @return self
      */
     public function subscribe(string $event, callable $listener): self

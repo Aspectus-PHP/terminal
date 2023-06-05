@@ -70,8 +70,11 @@ final class TerminalDevice
     /**
      * Subscribes a listener to a specific event
      *
-     * @param class-string $event
-     * @param callable(): ?true $listener   Return `true` to unsubscribe
+     * @template E of InputEvent
+     * @template C of callable(E):?true|\Closure(E):?true
+     *
+     * @param class-string<E> $event
+     * @param C $listener   Return `true` to unsubscribe
      * @return void
      */
     public function subscribe(string $event, callable $listener): void
