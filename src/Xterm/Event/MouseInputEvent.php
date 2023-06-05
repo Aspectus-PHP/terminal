@@ -40,12 +40,12 @@ class MouseInputEvent extends EscapeSequenceEvent
 
     public static function fromNormal(string $sequence): self
     {
-        $startAt = strpos($sequence, "M");
+        $startAt = (int) strpos($sequence, "M");
         $bytes = substr($sequence, $startAt + 1);
 
-        $button = ord($bytes[0]);
-        $x = ord($bytes[1]) - 32;
-        $y = ord($bytes[2]) - 32;
+        $button = ord($bytes[0] ?? '');
+        $x = ord($bytes[1] ?? '') - 32;
+        $y = ord($bytes[2] ?? '') - 32;
 
         return new self(
             $sequence,
@@ -84,7 +84,7 @@ class MouseInputEvent extends EscapeSequenceEvent
     public function button2(): bool
     {
         return match ($this->mode) {
-            self::X10, self::NORMAL, self::SGR => ($this->button & 0b01) && (0 === $this->button & 0b100000),
+            self::X10, self::NORMAL, self::SGR => ($this->button & 0b01) && (0 === ($this->button & 0b100000)),
             default => false
         };
 
@@ -109,7 +109,7 @@ class MouseInputEvent extends EscapeSequenceEvent
 
     public function button4(): bool
     {
-        return match ($this->mode) {
+        return (bool) match ($this->mode) {
             self::SGR => $this->button & 0b1000,        // this does not seem correct
             default => false
         };
@@ -117,7 +117,7 @@ class MouseInputEvent extends EscapeSequenceEvent
     }
     public function button5(): bool
     {
-        return match ($this->mode) {
+        return (bool) match ($this->mode) {
             self::SGR => $this->button & 0b1010,        // this does not seem correct
             default => false
         };
@@ -139,7 +139,7 @@ class MouseInputEvent extends EscapeSequenceEvent
 
     public function button8(): bool
     {
-        return match ($this->mode) {
+        return (bool) match ($this->mode) {
             self::SGR => $this->button & 0b10000000,
             default => false
         };
@@ -186,7 +186,7 @@ class MouseInputEvent extends EscapeSequenceEvent
 
     public function shift(): bool
     {
-        return match ($this->mode) {
+        return (bool) match ($this->mode) {
             self::NORMAL, self::SGR => $this->button & 0b100,
             default => false
         };
@@ -194,7 +194,7 @@ class MouseInputEvent extends EscapeSequenceEvent
 
     public function alt(): bool
     {
-        return match ($this->mode) {
+        return (bool) match ($this->mode) {
             self::NORMAL, self::SGR => $this->button & 0b1000,      // SGR (same as Button 4 press?)
             default => false
         };
@@ -207,7 +207,7 @@ class MouseInputEvent extends EscapeSequenceEvent
 
     public function ctrl(): bool
     {
-        return match ($this->mode) {
+        return (bool) match ($this->mode) {
             self::NORMAL, self::SGR => $this->button & 0b10000,
             default => false
         };
@@ -215,7 +215,7 @@ class MouseInputEvent extends EscapeSequenceEvent
 
     public function motion(): bool
     {
-        return match ($this->mode) {
+        return (bool) match ($this->mode) {
             self::NORMAL => $this->button & 0b1000000,    // motion will always start from 64
             self::SGR => $this->button & 0b100000,        // here it seems to be just the 32
             default => false
