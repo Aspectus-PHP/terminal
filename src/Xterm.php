@@ -144,7 +144,7 @@ class Xterm
             }
         );
 
-        $this->device->write($this->driver::CSI . '>0c');
+        $this->device->write($this->driver::CSI . '>0x');
         return $deferred->getFuture()->await();
     }
 
