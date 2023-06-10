@@ -953,6 +953,31 @@ class Xterm
         return $this->write($this->driver::CSI . "?1003h");
     }
 
+    public function unsetPrivateModeTrackMouseAll(): self
+    {
+        return $this->write($this->driver::CSI . "?1003l");
+    }
+
+    public function setPrivateModeTrackMouseFocus(): self
+    {
+        return $this->write($this->driver::CSI . "?1004h");
+    }
+
+    public function unsetPrivateModeTrackMouseFocus(): self
+    {
+        return $this->write($this->driver::CSI . "?1004l");
+    }
+
+    public function setPrivateModeTrackMouseSgrExt(): self
+    {
+        return $this->write($this->driver::CSI . "?1006h");
+    }
+
+    public function unsetPrivateModeTrackMouseSgrExt(): self
+    {
+        return $this->write($this->driver::CSI . "?1006l");
+    }
+
     public function setPrivateModeScrollToBottomOnOutput(): self
     {
         return $this->write($this->driver::CSI . "?1010h");
