@@ -4,19 +4,41 @@ namespace Aspectus\Terminal\Value;
 
 use Aspectus\Terminal\Xterm\ControlDriver\Xterm7BitControlDriver;
 
-class PrimaryDeviceAttributes
+final class PrimaryDeviceAttributes
 {
     public const VT100 = 'vt100';
+
     public const VT220 = 'vt220';
 
     public const COLUMNS_132 = '132-columns';
+
     public const PRINTER = 'printer';
+
+    public const REGIS_GRAPHICS = 'regis';
+
+    public const SIXEL_GRAPHICS = 'sixel';
+
     public const SELECTIVE_ERASE = 'selectiveErase';
+
     public const USER_DEFINED_KEYS = 'userDefinedKeys';
+
     public const NATIONAL_CHARSETS = 'nationalCharsets';
+
     public const TECHNICAL_CHARACTERS = 'technicalCharacters';
+
+    public const LOCATOR_PORT = 'locator';
+
+    public const TERMINAL_STATE_INTERROGATION = 'terminalStateInterrogation';
+
+    public const USER_WINDOWS = 'userWindows';
+
+    public const HORIZONTAL_SCROLLING = 'horizontalScrolling';
+
     public const ANSI_COLOR = 'ansiColor';  // VT525
+
     public const ANSI_TEXT_LOCATOR = 'ansiTextLocator'; // DEC Locator mode
+
+    public const RECTANGULAR_EDITING = 'rectangularEditing';
 
     public const UNDEFINED = 'undefined';
 
@@ -31,11 +53,18 @@ class PrimaryDeviceAttributes
     private const CAPABILITIES = [
         '1' => self::COLUMNS_132,
         '2' => self::PRINTER,
+        '3' => self::REGIS_GRAPHICS,
+        '4' => self::SIXEL_GRAPHICS,
         '6' => self::SELECTIVE_ERASE,
         '8' => self::USER_DEFINED_KEYS,
         '9' => self::NATIONAL_CHARSETS,
         '15' => self::TECHNICAL_CHARACTERS,
+        '16' => self::LOCATOR_PORT,
+        '17' => self::TERMINAL_STATE_INTERROGATION,
+        '18' => self::USER_WINDOWS,
+        '21' => self::HORIZONTAL_SCROLLING,
         '22' => self::ANSI_COLOR,
+        '28' => self::RECTANGULAR_EDITING,
         '29' => self::ANSI_TEXT_LOCATOR,
     ];
 
