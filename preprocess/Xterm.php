@@ -285,6 +285,16 @@ $methods = [
                                 => ['%CSI%', '?1002l'], // mouse tracking
     'setPrivateModeTrackMouseAll'
                                 => ['%CSI%', '?1003h'],  // mouse tracking
+    'unsetPrivateModeTrackMouseAll'
+                                => ['%CSI%', '?1003l'],  // mouse tracking
+    'setPrivateModeTrackMouseFocus'
+                                => ['%CSI%', '?1004h'],  // mouse tracking
+    'unsetPrivateModeTrackMouseFocus'
+                                => ['%CSI%', '?1004l'],  // mouse tracking
+    'setPrivateModeTrackMouseSgrExt'
+                                => ['%CSI%', '?1006h'],  // mouse tracking
+    'unsetPrivateModeTrackMouseSgrExt'
+                                => ['%CSI%', '?1006l'],  // mouse tracking
     'setPrivateModeScrollToBottomOnOutput'
                                 => ['%CSI%', '?1010h'],  // rxvt
     'unsetPrivateModeScrollToBottomOnOutput'
