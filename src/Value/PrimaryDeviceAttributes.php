@@ -10,6 +10,10 @@ final class PrimaryDeviceAttributes
 
     public const VT220 = 'vt220';
 
+    public const VT320 = 'vt320';
+
+    public const VT420 = 'vt320';
+
     public const COLUMNS_132 = '132-columns';
 
     public const PRINTER = 'printer';
@@ -47,6 +51,8 @@ final class PrimaryDeviceAttributes
         '1' => self::VT100,
         '60' => self::VT220,
         '62' => self::VT220,    // kitty, might be more than VT220
+        '63' => self::VT320,
+        '64' => self::VT420
     ];
 
     /** @var string[] */
