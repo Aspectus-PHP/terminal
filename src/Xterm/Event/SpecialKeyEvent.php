@@ -7,6 +7,10 @@ use Aspectus\Terminal\Event\InputEvent;
 class SpecialKeyEvent extends InputEvent
 {
     public const ESC = '<ESC>';
+    public const ENTER = '<ENTER>';
+    public const TAB = '<TAB>';
+    public const BACKSPACE = '<BACKSPACE>';
+    public const SPACE = '<SPACE>';
     public const F1 = '<F1>';
     public const F2 = '<F2>';
     public const F3 = '<F3>';
