@@ -14,6 +14,16 @@ class XtermEventFactory implements EventFactoryInterface
     public function createEvent(string $received): ?InputEvent
     {
         return match ($received) {
+            // > escape
+            // todo: add 8bit if there is one -- not clear yet
+            "\x1b" => SpecialKeyEvent::create(SpecialKeyEvent::ESC, $received),
+
+            // others
+            "\x0a" => SpecialKeyEvent::create(SpecialKeyEvent::ENTER, $received),
+            "\x09" => SpecialKeyEvent::create(SpecialKeyEvent::TAB, $received),
+            "\x7f" => SpecialKeyEvent::create(SpecialKeyEvent::BACKSPACE, $received),
+            "\x20" => SpecialKeyEvent::create(SpecialKeyEvent::SPACE, $received),
+
             // > FUNCTION KEYS
             // PC-Style 7bit, PC-Style 8bit, VT52-Style
             "\x1bOP", "\x8fP", "\x1b[11~", "\eP" => SpecialKeyEvent::create(SpecialKeyEvent::F1, $received),
@@ -36,10 +46,6 @@ class XtermEventFactory implements EventFactoryInterface
             "\x1bOB", "\x8fB", "\eB", "\x1b[B", "\x9bB" => SpecialKeyEvent::create(SpecialKeyEvent::DOWN, $received),
             "\x1bOC", "\x8fC", "\eC", "\x1b[C", "\x9bC" => SpecialKeyEvent::create(SpecialKeyEvent::RIGHT, $received),
             "\x1bOD", "\x8fD", "\eD", "\x1b[D", "\x9bD" => SpecialKeyEvent::create(SpecialKeyEvent::LEFT, $received),
-
-            // > escape
-            // todo: add 8bit if there is one -- not clear yet
-            "\x1b" => SpecialKeyEvent::create(SpecialKeyEvent::ESC, $received),
 
             // >> MOUSE FOCUS
             // 7 bit, 8 bit (& repeat)
