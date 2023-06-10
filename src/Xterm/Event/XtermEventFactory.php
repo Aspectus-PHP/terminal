@@ -37,11 +37,16 @@ class XtermEventFactory implements EventFactoryInterface
             "\x1bOC", "\x8fC", "\eC", "\x1b[C", "\x9bC" => SpecialKeyEvent::create(SpecialKeyEvent::RIGHT, $received),
             "\x1bOD", "\x8fD", "\eD", "\x1b[D", "\x9bD" => SpecialKeyEvent::create(SpecialKeyEvent::LEFT, $received),
 
+            // > escape
+            // todo: add 8bit if there is one -- not clear yet
+            "\x1b" => SpecialKeyEvent::create(SpecialKeyEvent::ESC, $received),
+
             // >> MOUSE FOCUS
             // 7 bit, 8 bit (& repeat)
             "\x1b[I", "\x9bI", "\x1b[O", "\x9bO" => MouseFocusEvent::create($received),
 
             default => match ($received[0]) {
+                // todo: could $received[2] not be set?
                 "\x1b" => match ($received[2]) {
                     '<' => MouseInputEvent::fromSGR($received),
                     'M' => MouseInputEvent::fromNormal($received),
