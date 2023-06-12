@@ -528,6 +528,11 @@ class Xterm
         return $this->write($this->driver::CSI . "2J");
     }
 
+    public function eraseDisplay(): self
+    {
+        return $this->write($this->driver::CSI . "2J");
+    }
+
     public function eraseSavedLines(): self
     {
         return $this->write($this->driver::CSI . "3J");
@@ -798,7 +803,17 @@ class Xterm
         return $this->write($this->driver::CSI . "?25h");
     }
 
+    public function showCursor(): self
+    {
+        return $this->write($this->driver::CSI . "?25h");
+    }
+
     public function setPrivateModeHideCursor(): self
+    {
+        return $this->write($this->driver::CSI . "?25l");
+    }
+
+    public function hideCursor(): self
     {
         return $this->write($this->driver::CSI . "?25l");
     }
@@ -1053,7 +1068,17 @@ class Xterm
         return $this->write($this->driver::CSI . "?1049h");
     }
 
+    public function saveCursorAndEnterAlternateScreenBuffer(): self
+    {
+        return $this->write($this->driver::CSI . "?1049h");
+    }
+
     public function setPrivateModeRestoreCursorAndEnterNormalScreenBuffer(): self
+    {
+        return $this->write($this->driver::CSI . "?1049l");
+    }
+
+    public function restoreCursorAndEnterNormalScreenBuffer(): self
     {
         return $this->write($this->driver::CSI . "?1049l");
     }
@@ -1206,36 +1231,6 @@ class Xterm
     public function windowResizeCharacters(int $heightCharacters, int $widthCharacters): self
     {
         return $this->write($this->driver::CSI . "8;$heightCharacters;$widthCharacters" . 't');
-    }
-
-    public function saveCursorAndEnterAlternateScreenBuffer(): self
-    {
-        return $this->write("\x1b[?1049h");
-    }
-
-    public function restoreCursorAndEnterNormalScreenBuffer(): self
-    {
-        return $this->write("\x1b[?1049l");
-    }
-
-    public function hideCursor(): self
-    {
-        return $this->write("\x1b[?25l");
-    }
-
-    public function showCursor(): self
-    {
-        return $this->write("\x1b[?25h");
-    }
-
-    public function eraseDisplay(): self
-    {
-        return $this->write("\x1b[2J");
-    }
-
-    public function disableAlternateCharset(): self
-    {
-        return $this->write("(B");
     }
 
     public function normal(): self
