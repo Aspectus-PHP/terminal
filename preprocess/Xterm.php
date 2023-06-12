@@ -733,13 +733,12 @@ class Xterm
             }
         );
 
-        $this->device->write('$this->driver::CSI . ' . '6n');
+        $this->device->write($this->driver::CSI . '6n');
         $return = $deferred->getFuture()->await();
 
         // what if there is nothing? will it be null ?
 
-        $return = str_replace($this->driver::CSI, '', $return);
-        $row = strtok(';');
+        $row = strtok($return, ';');
         $column = strtok('R');
 
         return [$row, $column];
@@ -764,6 +763,208 @@ class Xterm
 
         $this->device->write($this->driver::CSI . '15n');
         return $deferred->getFuture()->await() === $this->driver::CSI . '?10n'; // for ready
+    }
+
+
+    public function reportWindowPosition(): array
+    {
+        $deferred = new DeferredFuture();
+        // todo: add prepend method
+        $this->device->subscribe(
+            EscapeSequenceEvent::class,
+            function (EscapeSequenceEvent $event) use ($deferred) {
+                try {
+                    $deferred->complete($event->data);
+                } catch (\Throwable $e) {
+                    $deferred->error($e);
+                }
+
+                return true;        // signal to un-register listener
+            }
+        );
+
+        $this->device->write($this->driver::CSI . '13t');
+
+        $return = $deferred->getFuture()->await();
+
+        strtok($return, ';');
+        return [strtok(';'), strtok('t')];
+    }
+
+    public function reportTextAreaPosition(): array
+    {
+        $deferred = new DeferredFuture();
+        // todo: add prepend method
+        $this->device->subscribe(
+            EscapeSequenceEvent::class,
+            function (EscapeSequenceEvent $event) use ($deferred) {
+                try {
+                    $deferred->complete($event->data);
+                } catch (\Throwable $e) {
+                    $deferred->error($e);
+                }
+
+                return true;        // signal to un-register listener
+            }
+        );
+
+        $this->device->write($this->driver::CSI . '13;2t');
+
+        $return = $deferred->getFuture()->await();
+
+        strtok($return, ';');
+        return [strtok(';'), strtok('t')];
+    }
+
+
+    public function reportTextAreaSizePixels(): array
+    {
+        $deferred = new DeferredFuture();
+        // todo: add prepend method
+        $this->device->subscribe(
+            EscapeSequenceEvent::class,
+            function (EscapeSequenceEvent $event) use ($deferred) {
+                try {
+                    $deferred->complete($event->data);
+                } catch (\Throwable $e) {
+                    $deferred->error($e);
+                }
+
+                return true;        // signal to un-register listener
+            }
+        );
+
+        $this->device->write($this->driver::CSI . '14t');
+
+        $return = $deferred->getFuture()->await();
+
+        strtok($return, ';');
+        return [strtok(';'), strtok('t')];
+    }
+
+    public function reportWindowSizePixels(): array
+    {
+        $deferred = new DeferredFuture();
+        // todo: add prepend method
+        $this->device->subscribe(
+            EscapeSequenceEvent::class,
+            function (EscapeSequenceEvent $event) use ($deferred) {
+                try {
+                    $deferred->complete($event->data);
+                } catch (\Throwable $e) {
+                    $deferred->error($e);
+                }
+
+                return true;        // signal to un-register listener
+            }
+        );
+
+        $this->device->write($this->driver::CSI . '14;2t');
+
+        $return = $deferred->getFuture()->await();
+
+        strtok($return, ';');
+        return [strtok(';'), strtok('t')];
+    }
+
+    public function reportScreenSizePixels(): array
+    {
+        $deferred = new DeferredFuture();
+        // todo: add prepend method
+        $this->device->subscribe(
+            EscapeSequenceEvent::class,
+            function (EscapeSequenceEvent $event) use ($deferred) {
+                try {
+                    $deferred->complete($event->data);
+                } catch (\Throwable $e) {
+                    $deferred->error($e);
+                }
+
+                return true;        // signal to un-register listener
+            }
+        );
+
+        $this->device->write($this->driver::CSI . '15t');
+
+        $return = $deferred->getFuture()->await();
+
+        strtok($return, ';');
+        return [strtok(';'), strtok('t')];
+    }
+
+    public function reportCharacterSizePixels(): array
+    {
+        $deferred = new DeferredFuture();
+        // todo: add prepend method
+        $this->device->subscribe(
+            EscapeSequenceEvent::class,
+            function (EscapeSequenceEvent $event) use ($deferred) {
+                try {
+                    $deferred->complete($event->data);
+                } catch (\Throwable $e) {
+                    $deferred->error($e);
+                }
+
+                return true;        // signal to un-register listener
+            }
+        );
+
+        $this->device->write($this->driver::CSI . '16t');
+
+        $return = $deferred->getFuture()->await();
+
+        strtok($return, ';');
+        return [strtok(';'), strtok('t')];
+    }
+
+    public function reportTextAreaSizeCharacters(): array
+    {
+        $deferred = new DeferredFuture();
+        // todo: add prepend method
+        $this->device->subscribe(
+            EscapeSequenceEvent::class,
+            function (EscapeSequenceEvent $event) use ($deferred) {
+                try {
+                    $deferred->complete($event->data);
+                } catch (\Throwable $e) {
+                    $deferred->error($e);
+                }
+
+                return true;        // signal to un-register listener
+            }
+        );
+
+        $this->device->write($this->driver::CSI . '18t');
+
+        $return = $deferred->getFuture()->await();
+
+        strtok($return, ';');
+        return [strtok(';'), strtok('t')];
+    }
+
+    public function reportScreenSizeCharacters(): array
+    {
+        $deferred = new DeferredFuture();
+        // todo: add prepend method
+        $this->device->subscribe(
+            EscapeSequenceEvent::class,
+            function (EscapeSequenceEvent $event) use ($deferred) {
+                try {
+                    $deferred->complete($event->data);
+                } catch (\Throwable $e) {
+                    $deferred->error($e);
+                }
+
+                return true;        // signal to un-register listener
+            }
+        );
+
+        $this->device->write($this->driver::CSI . '19t');
+
+        $return = $deferred->getFuture()->await();
+
+        strtok($return, ';');
+        return [strtok(';'), strtok('t')];
     }
 
     // missing the DeviceStatusReports for DEC as they dont seem to work always?
