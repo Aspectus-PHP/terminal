@@ -408,6 +408,17 @@ $methods = [
     'windowRefresh'             => ['%CSI%', '7t'],
     'windowResizeCharacters'    => ['%CSI%', '8;$heightCharacters;$widthCharacters', 't'],
 
+        // these seem to work only in Xterm (by default)
+    'windowRestoreFromMaximized'
+                                => ['%CSI%', '9;0t'],
+    'windowMaximize'            => ['%CSI%', '9;1t'],
+    'windowMaximizeVertically'  => ['%CSI%', '9;2t'],
+    'windowMaximizeHorizontally'
+                                => ['%CSI%', '9;3t'],
+    'windowUndoFullScreen'      => ['%CSI%', '10;0t'],
+    'windowFullScreen'          => ['%CSI%', '10;1t'],
+    'windowFullScreenToggle'    => ['%CSI%', '10;2t'],
+
     // Styles & Colors
 
     'normal'                    => ['%CSI%', '0m'],
