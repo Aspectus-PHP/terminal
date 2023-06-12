@@ -111,11 +111,12 @@ $methods = [
     'cursorMoveTab'             => ['%CSI%', '$tab', 'I'],
 
     // todo: these could be grouped
-    'eraseBelow'                => ['%CSI%', '0J'],       // default
+    'eraseBelow'                => ['%CSI%', '0J'],     // default
     'eraseAbove'                => ['%CSI%', '1J'],
     'eraseAll'                  => ['%CSI%', '2J'],
+    'eraseDisplay'              => ['%CSI%', '2J'],     // alias
     'eraseSavedLines'           => ['%CSI%', '3J'],
-    'selectiveEraseBelow'       => ['%CSI%', '?0J'],  // default
+    'selectiveEraseBelow'       => ['%CSI%', '?0J'],    // default
     'selectiveEraseAbove'       => ['%CSI%', '?1J'],
     'selectiveEraseAll'         => ['%CSI%', '?2J'],
     'eraseLineToRight'          => ['%CSI%', '0K'],     // default
@@ -227,7 +228,9 @@ $methods = [
     'setPrivateModePrintExtentToScrollingRegion'
                                 => ['%CSI%', '?19l'],
     'setPrivateModeShowCursor'  => ['%CSI%', '?25h'],
+    'showCursor'                => ['%CSI%', '?25h'],   // alias
     'setPrivateModeHideCursor'  => ['%CSI%', '?25l'],
+    'hideCursor'                => ['%CSI%', '?25l'],   // alias
     'setPrivateModeShowScrollbar'
                                 => ['%CSI%', '?30h'],
     'setPrivateModeHideScrollbar'
@@ -322,10 +325,17 @@ $methods = [
     'setPrivateModeSaveCursor'  => ['%CSI%', '?1048h'],
     'setPrivateModeRestoreCursor'
                                 => ['%CSI%', '?1048l'],
+
+    // mode 1049 -- this might be only applicable to terminfo-based apps rather than mode 1047
+    // @see https://www.xfree86.org/current/ctlseqs.html
     'setPrivateModeSaveCursorAndEnterAlternateScreenBuffer'
                                 => ['%CSI%', '?1049h'],
+    'saveCursorAndEnterAlternateScreenBuffer'
+                                => ['%CSI%', '?1049h'],     // alias
     'setPrivateModeRestoreCursorAndEnterNormalScreenBuffer'
                                 => ['%CSI%', '?1049l'],
+    'restoreCursorAndEnterNormalScreenBuffer'
+                                => ['%CSI%', '?1049l'],     // alias
     'setPrivateModeSunFunctionKey'
                                 => ['%CSI%', '?1051h'],
     'unsetPrivateModeSunFunctionKey'
@@ -397,18 +407,6 @@ $methods = [
     'windowToBack'              => ['%CSI%', '6t'],
     'windowRefresh'             => ['%CSI%', '7t'],
     'windowResizeCharacters'    => ['%CSI%', '8;$heightCharacters;$widthCharacters', 't'],
-
-
-    // mode 1049 -- this might be only applicable to terminfo-based apps rather than mode 1047
-    // @see https://www.xfree86.org/current/ctlseqs.html
-    'saveCursorAndEnterAlternateScreenBuffer'
-                                => ANSI::SAVE_CURSOR_AND_ENTER_ALTERNATE_SCREEN_BUFFER,
-    'restoreCursorAndEnterNormalScreenBuffer'
-                                => ANSI::RESTORE_CURSOR_AND_ENTER_NORMAL_SCREEN_BUFFER,
-    'hideCursor'                => ANSI::HIDE_CURSOR,
-    'showCursor'                => ANSI::SHOW_CURSOR,
-    'eraseDisplay'              => ANSI::ERASE_DISPLAY,
-    'disableAlternateCharset'   => ANSI::ALTERNATE_CHARSET_OFF,
 
     // Styles & Colors
 
