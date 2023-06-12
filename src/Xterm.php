@@ -1233,6 +1233,41 @@ class Xterm
         return $this->write($this->driver::CSI . "8;$heightCharacters;$widthCharacters" . 't');
     }
 
+    public function windowRestoreFromMaximized(): self
+    {
+        return $this->write($this->driver::CSI . "9;0t");
+    }
+
+    public function windowMaximize(): self
+    {
+        return $this->write($this->driver::CSI . "9;1t");
+    }
+
+    public function windowMaximizeVertically(): self
+    {
+        return $this->write($this->driver::CSI . "9;2t");
+    }
+
+    public function windowMaximizeHorizontally(): self
+    {
+        return $this->write($this->driver::CSI . "9;3t");
+    }
+
+    public function windowUndoFullScreen(): self
+    {
+        return $this->write($this->driver::CSI . "10;0t");
+    }
+
+    public function windowFullScreen(): self
+    {
+        return $this->write($this->driver::CSI . "10;1t");
+    }
+
+    public function windowFullScreenToggle(): self
+    {
+        return $this->write($this->driver::CSI . "10;2t");
+    }
+
     public function normal(): self
     {
         return $this->write($this->driver::CSI . "0m");
