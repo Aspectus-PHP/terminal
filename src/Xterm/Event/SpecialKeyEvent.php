@@ -29,6 +29,13 @@ class SpecialKeyEvent extends InputEvent
     public const UP = '<UP>';
     public const DOWN = '<DOWN>';
 
+    public const INSERT = '<INSERT>';
+    public const DELETE = '<DELETE>';
+    public const HOME = '<HOME>';
+    public const END = '<END>';
+    public const PGUP = '<PGUP>';
+    public const PGDN = '<PGDN>';
+
     public function __construct(
         readonly public string $data,
         readonly public string $originalData
