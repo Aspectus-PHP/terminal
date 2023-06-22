@@ -47,6 +47,19 @@ class XtermEventFactory implements EventFactoryInterface
             "\x1bOC", "\x8fC", "\eC", "\x1b[C", "\x9bC" => SpecialKeyEvent::create(SpecialKeyEvent::RIGHT, $received),
             "\x1bOD", "\x8fD", "\eD", "\x1b[D", "\x9bD" => SpecialKeyEvent::create(SpecialKeyEvent::LEFT, $received),
 
+            // 6-key keypad
+            // todo: add SUN ?
+            // 7bit DEC*, 8bit DEC*, HP/VT220, 7 bit SCO, 8 bit SCO
+            // DEC* where not available (HOME/END) must be from 6-key keypad
+            // todo: In HP: F2 collides with INSERT and F3 with DELETE, so kept as F2/F3
+            "\x1b[2~", "\x8f2~",        "\x1b[L", "\x8fL" => SpecialKeyEvent::create(SpecialKeyEvent::INSERT, $received),
+            "\x1b[3~", "\x8f3~",                          => SpecialKeyEvent::create(SpecialKeyEvent::DELETE, $received),
+            "\x1b[1~", "\x8f1~", "\eh", "\x1b[H", "\x8fH" => SpecialKeyEvent::create(SpecialKeyEvent::HOME, $received),
+            "\x1b[4~", "\x8f4~", "\eF", "\x1b[F", "\x8fF" => SpecialKeyEvent::create(SpecialKeyEvent::END, $received),
+            "\x1b[5~", "\x8f5~"                           => SpecialKeyEvent::create(SpecialKeyEvent::PGUP, $received),
+            "\x1b[6~", "\x8f6~"                           => SpecialKeyEvent::create(SpecialKeyEvent::PGDN, $received),
+
+
             // >> MOUSE FOCUS
             // 7 bit, 8 bit (& repeat)
             "\x1b[I", "\x9bI", "\x1b[O", "\x9bO" => MouseFocusEvent::create($received),
