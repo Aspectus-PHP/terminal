@@ -35,7 +35,7 @@ class SpecialKeyEvent extends InputEvent
     ) {
     }
 
-    public static function create(string $abstractedKey, string $originalData)
+    public static function create(string $abstractedKey, string $originalData): self
     {
         return new self($abstractedKey, $originalData);
     }

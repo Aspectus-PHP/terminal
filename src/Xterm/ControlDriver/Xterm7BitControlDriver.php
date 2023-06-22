@@ -16,6 +16,7 @@ class Xterm7BitControlDriver
     public const EPA = self::ESC . 'W';
     public const SOS = self::ESC . 'X';
     public const DECID = self::ESC . 'Z';
+    /** @var string */
     public const CSI = self::ESC . '[';
     public const ST = self::ESC . '\\';
     public const OSC = self::ESC . ']';

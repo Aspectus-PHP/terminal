@@ -16,6 +16,7 @@ class Xterm8BitControlDriver
     public const EPA = "\x97";
     public const SOS = "\x98";
     public const DECID = "\x9a";
+    /** @var string */
     public const CSI = "\x9b";
     public const ST = "\x9c";
     public const OSC = "\x9d";

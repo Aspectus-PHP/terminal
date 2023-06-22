@@ -8,19 +8,17 @@ class InputEvent implements \Stringable
 {
     /**
      * The device instance that dispatched this event
-     *
-     * @var TerminalDevice
      */
-    public TerminalDevice $device;
+    public ?TerminalDevice $device = null;
 
     protected function __construct(
-        public readonly string $data
+        readonly public string $data
     ) {
     }
 
     public static function fromString(string $data): self
     {
-        return new static($data);
+        return new self($data);
     }
 
     public function __toString(): string
