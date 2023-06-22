@@ -26,7 +26,7 @@ final class TerminalDevice
 
     private array $listeners = [];
     private ?Future $readingFuture = null;
-    private ?DeferredCancellation $readCancellation;
+    private ?DeferredCancellation $readCancellation = null;
 
     /**
      * @param ReadableStream|resource $input
