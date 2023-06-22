@@ -24,8 +24,6 @@ final class TerminalDevice
     private readonly ReadableStream $input;
     private readonly WritableStream $errorStream;
 
-    private ?EventFactoryInterface $eventFactory;
-
     private array $listeners = [];
     private ?Future $readingFuture = null;
     private ?DeferredCancellation $readCancellation;
@@ -35,12 +33,16 @@ final class TerminalDevice
      * @param WritableStream|resource $output
      * @param WritableStream|resource $error
      */
-    public function __construct($input = \STDIN, $output = \STDOUT, $error = \STDERR, ?EventFactoryInterface $eventFactory = null)
-    {
+    public function __construct(
+        $input = \STDIN,
+        $output = \STDOUT,
+        $error = \STDERR,
+        private ?EventFactoryInterface $eventFactory = null,
+        private ?ExceptionHandlerInterface $exceptionHandler = null
+    ) {
         $this->input = is_resource($input) ? new ReadableResourceStream($input) : $input;
         $this->output = is_resource($output) ? new WritableResourceStream($output) : $output;
         $this->errorStream = is_resource($error) ? new WritableResourceStream($error) : $error;
-        $this->eventFactory = $eventFactory;
     }
 
     /**
@@ -88,12 +90,16 @@ final class TerminalDevice
 
     private function read(): void
     {
-        $this->readCancellation = new DeferredCancellation();
+        try {
+            $this->readCancellation = new DeferredCancellation();
 
-        while ('' !== ($chunk = $this->input->read($this->readCancellation->getCancellation()))) {
-            if ($chunk) {
-                $this->processChunk($chunk);
+            while ('' !== ($chunk = $this->input->read($this->readCancellation->getCancellation()))) {
+                if ($chunk) {
+                    $this->processChunk($chunk);
+                }
             }
+        } catch (\Throwable $exception) {
+            $this->exceptionHandler?->onException($exception);
         }
     }
 
