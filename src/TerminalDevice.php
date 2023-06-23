@@ -27,6 +27,7 @@ final class TerminalDevice
     private array $listeners = [];
     private ?Future $readingFuture = null;
     private ?DeferredCancellation $readCancellation = null;
+    private ?string $stty = null;
 
     /**
      * @param ReadableStream|resource $input
@@ -43,6 +44,13 @@ final class TerminalDevice
         $this->input = is_resource($input) ? new ReadableResourceStream($input) : $input;
         $this->output = is_resource($output) ? new WritableResourceStream($output) : $output;
         $this->errorStream = is_resource($error) ? new WritableResourceStream($error) : $error;
+    }
+
+    public function __destruct()
+    {
+        if ($this->stty) {
+            exec("stty $this->stty");
+        }
     }
 
     /**
@@ -155,5 +163,17 @@ final class TerminalDevice
     public function setEventFactory(?EventFactoryInterface $eventFactory): void
     {
         $this->eventFactory = $eventFactory;
+    }
+
+    /**
+     * Provides a minor convenience to restore stty on exit
+     */
+    public function stty(string $setting): void
+    {
+        if (!$this->stty) {
+            $this->stty = exec("stty -g");
+        }
+
+        exec("stty $setting");
     }
 }
