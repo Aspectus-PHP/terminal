@@ -16,9 +16,10 @@ class InputEvent implements \Stringable
     ) {
     }
 
-    public static function fromString(string $data): self
+    public static function fromString(string $data): static
     {
-        return new self($data);
+        /** @psalm-suppress UnsafeInstantiation (for now) */
+        return new static($data);
     }
 
     public function __toString(): string
