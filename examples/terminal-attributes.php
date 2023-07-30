@@ -3,6 +3,8 @@
 use Aspectus\Terminal\Event\InputEvent;
 use Aspectus\Terminal\Xterm;
 use Revolt\EventLoop;
+use function Amp\async;
+use function Amp\delay;
 
 require \dirname(__DIR__) . '/vendor/autoload.php';
 
@@ -30,24 +32,20 @@ $xterm
     // boot
     ->setPrivateModeSaveCursorAndEnterAlternateScreenBuffer()
     ->hideCursor()
+    ->moveCursorTo(10, 15)
+    ->write("Resize your terminal")
     ->flush()
 ;
 
-EventLoop::repeat(1, function () use ($xterm, $primary, $secondary) {
-    $xterm
-        // set colors
-        ->bgBlue()
-        ->brightYellow()
-        ->eraseAll();
-
+$update = function () use ($xterm, $primary, $secondary) {
     $view = [
         // Primary
         'Terminal ID' => $primary->terminalId,
         'Capabilities' => "\n\t" . implode(
-            " ",
-            // only first letter for when its running on xterm
-            array_map(fn ($capability) => substr($capability, 0, 1), $primary->capabilities)
-        ),
+                " ",
+                // only first letter for when its running on xterm
+                array_map(fn ($capability) => substr($capability, 0, 1), $primary->capabilities)
+            ),
 
         // Secondary
         'Type' => $secondary->type,
@@ -79,6 +77,11 @@ EventLoop::repeat(1, function () use ($xterm, $primary, $secondary) {
         [11, 40],
     ];
 
+    $xterm
+        ->bgBlue()
+        ->brightYellow()
+        ->eraseAll();
+
     $i = 0;
     foreach ($view as $title => $data) {
         $element = str_pad($title . ' ', 25, '.') . ' : ' . $data;
@@ -86,7 +89,7 @@ EventLoop::repeat(1, function () use ($xterm, $primary, $secondary) {
             ->moveCursorTo(...$lines[$i++])
             ->write($element);
     }
-        //
+    //
     $xterm
         ->moveCursorTo(15, 10)
         ->blink()
@@ -94,6 +97,15 @@ EventLoop::repeat(1, function () use ($xterm, $primary, $secondary) {
         ->normal()
         ->flush()
     ;
+};
+
+async($update);
+async(function () use (&$update) {
+    delay(1);
+    if ($update !== null) {
+        $update();
+    }
 });
 
+EventLoop::onSignal(\SIGWINCH, $update);
 EventLoop::run();
